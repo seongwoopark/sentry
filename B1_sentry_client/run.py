@@ -104,20 +104,11 @@ async def main():
 
     # write data
     if results:
-        old_mask = os.umask(0o022)
-        try:
-            # if directory does not exist,
-            if not os.path.exists(f"{base_dir}/{now.strftime('%Y-%m-%d')}"):
-                os.makedirs(f"{base_dir}/{now.strftime('%Y-%m-%d')}", mode=0o777)
-
-            with open(f"{base_dir}/{now.strftime('%Y-%m-%d')}/{now.strftime('%Y%m%d-%H%M%S')}.csv", "w", ) as f:
-                writer = csv.DictWriter(f, fieldnames=results[0].keys())
-                writer.writeheader()
-                for row in results:
-                    writer.writerow(row)
-        finally:
-            os.umask(old_mask)
-
+        with open(f"{base_dir}/{now.strftime('%Y%m%d-%H%M%S')}.csv", "w") as f:
+            writer = csv.DictWriter(f, fieldnames=results[0].keys())
+            writer.writeheader()
+            for row in results:
+                writer.writerow(row)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
