@@ -42,10 +42,10 @@ async def fetch_sentry_data(session, ip_address, now, retry=0):
         "method": "Report.GetPortStatistics",
         "params": {
             "outputType": "json",
-            "fromDate": "05/05/15",         # now.strftime("%m/%d/%y")
-            "fromTime": "10:00:00 AM",      # now.strftime("%I:%M:%S %p")
-            "toDate": "05/05/15",           # (now + timedelta(minutes=5)).strftime("%m/%d/%y")
-            "toTime": "01:00:00 PM",        # (now + timedelta(minutes=5)).strftime("%I:%M:%S %p")
+            "fromDate": now.strftime("%m/%d/%y"),
+            "fromTime": now.strftime("%I:%M:%S %p"),
+            "toDate": (now + timedelta(minutes=5)).strftime("%m/%d/%y"),
+            "toTime": (now + timedelta(minutes=5)).strftime("%I:%M:%S %p"),
             "span": "5 minutes",
             "types": [1, 2, 3],
             "availabilityProduct": "sentry"
@@ -104,7 +104,7 @@ async def main():
 
     # write data
     if results:
-        with open(f"{base_dir}/{now.strftime('%Y%m%d-%H%M%S')}.csv", "w") as f:
+        with open(f"{base_dir}/{now.strftime('%Y%m%d_%H%M%S')}_complete.csv", "w") as f:
             writer = csv.DictWriter(f, fieldnames=results[0].keys())
             writer.writeheader()
             for row in results:
