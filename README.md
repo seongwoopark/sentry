@@ -63,3 +63,7 @@ we will use `crontab` to execute the program periodically.
     ```
     */5 * * * * /usr/bin/python3.6 /home/sentry02/playground/sentry/B1_sentry_client/run.py >> /var/log/sentry 2>&1
     ```
+4. if you want to show standard output or error, 
+    ```
+    $ cat /var/log/sentry
+    ```
