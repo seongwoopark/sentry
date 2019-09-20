@@ -3,33 +3,46 @@ from datetime import datetime, timezone, timedelta
 import ftplib
 import os
 
-base_dir = "/var/sentry.d"
-# base_dir = os.path.dirname(os.path.abspath(__file__))     # current file path, use this if you want to save file here
 
-server_address = "127.0.0.1"
+host = "127.0.0.1"
+port = 21
+username = "sentry02"
+password = "teknone!"
+
+source_dir = "/var/sentry.d"
+destination_dir = "/home/sentry02/Downloads/sentry/"
+
+
+def main():
+    # get current time as KST
+    now = datetime.now(tz=timezone(timedelta(hours=9)))
+
+    # ftp connect and login
+    ftp = ftplib.FTP()
+    ftp.connect(host=host, port=port)
+    ftp.login(user=username, passwd=password)
+
+    # move current working directory to source_dir
+    ftp.cwd(source_dir)
+
+    # linux command ls results on ftp server cwd(source_dir)
+    src_dir_or_files = ftp.nlst()
+
+    # linux command ls results on destination_dir path
+    dst_dir_or_files = os.listdir(destination_dir)
+
+    # get target to download
+    download_target = set(src_dir_or_files) - set(dst_dir_or_files)
+
+    # download files from source_dir of ftp server to destination_dir
+    for dir_or_file in download_target:
+        try:
+            with open(f"{destination_dir}/{dir_or_file}", "wb") as f:
+                ftp.retrbinary(f"RETR {dir_or_file}", f.write)
+        except ftplib.Error as e:
+            if os.path.exists(f"{destination_dir}/{dir_or_file}"):
+                os.remove(f"{destination_dir}/{dir_or_file}")
 
 
 if __name__ == "__main__":
-    ftp = ftplib.FTP()
-    ftp.connect(server_address, 21)
-    ftp.login()
-    ftp.cwd(base_dir)
-
-    # if directory does not exist,
-    now = datetime.now(tz=timezone(timedelta(hours=9)))
-    if not os.path.exists(f"{base_dir}/{now.strftime('%Y-%m-%d')}"):
-        os.makedirs(f"{base_dir}/{now.strftime('%Y-%m-%d')}", mode=0o777)
-
-    with open(f"{base_dir}/{now.strftime('%Y-%m-%d')}/{now.strftime('%Y%m%d-%H%M%S')}.csv", "w", ) as f:
-        writer = csv.DictWriter(f, fieldnames=results[0].keys())
-        writer.writeheader()
-        for row in results:
-            writer.writerow(row)
-
-    try:
-        dir_or_files = ftp.nlst()
-    except ftplib.Error as e:
-        e
-
-    with open("./" + filename, "wb") as f:
-        ftp.retrbinary("RETR " + filename, f.write)
+    main()
