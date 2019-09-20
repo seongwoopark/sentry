@@ -61,9 +61,11 @@ we will use `crontab` to execute the program periodically.
     ```
     for example,
     ```
-    */5 * * * * /usr/bin/python3.6 /home/sentry02/playground/sentry/B1_sentry_client/run.py >> /var/log/sentry 2>&1
+    */5 * * * * /usr/bin/python3.6 /home/sentry02/playground/sentry/B1_sentry_client/run.py >> /var/log/b1_sentry_client 2>&1
+    */5 * * * * /usr/bin/python3.6 /home/sentry02/playground/sentry/C_ftp_client/run.py >> /var/log/c_ftp_client 2>&1
     ```
 4. if you want to show standard output or error, 
     ```
-    $ cat /var/log/sentry
+    $ cat /var/log/b1_sentry_client
+    $ cat /var/log/c_ftp_client
     ```
