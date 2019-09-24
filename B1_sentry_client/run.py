@@ -24,7 +24,7 @@ server_addresses = [
 
     #### Real Sentry Server ip address list ####
     "192.168.0.96",
-    "192.168.0.97",   # NOTE: not working with user: "Administrator" password: "none!!"
+    "192.168.0.97",
     "192.168.0.106"
 ]
 auth = aiohttp.BasicAuth(login="Administrator", password="none!!")
