@@ -13,6 +13,11 @@ os: ubuntu 18.04.3 LTS
 language: python 3.6.8
 
 ## how to run
+0. first of all, you have to download this code base, git repository and then move your working directory
+    ```
+    $ git clone https://github.com/seongwoopark/sentry.git
+    $ cd sentry
+    ```
 1. install python3.6(language) and pip3(python package installer)
     ```
     $ sudo apt-get update
