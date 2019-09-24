@@ -26,10 +26,10 @@ async def serve_dummy_data(request):
     rpc_data = json.loads(rpc_data)
     output_type = rpc_data.get("params", {}).get("outputType")
     if output_type == "json":
-        os.sys.stdout.wrtie("json output")
+        os.sys.stdout.write("json output")
         return web.json_response(data=json_data)
     elif output_type == "csv":
-        os.sys.stdout.wrtie("csv output")
+        os.sys.stdout.write("csv output")
         return web.Response(text=csv_data)
     else:
         return web.Response(text=f"not support outputType: '{output_type}'", status=400)
