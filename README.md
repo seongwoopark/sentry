@@ -15,8 +15,13 @@ language: python 3.6.8
 ## how to run
 0. first of all, you have to download this code base, git repository and then move your working directory
     ```
+    $ sudo apt-get install git
     $ git clone https://github.com/seongwoopark/sentry.git
     $ cd sentry
+    ```
+    if you want to only use A module, just do this like and ignore after 
+    ```
+    $ make mocked_server
     ```
 1. install python3.6(language) and pip3(python package installer)
     ```
